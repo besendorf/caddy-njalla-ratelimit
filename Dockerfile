@@ -1,4 +1,4 @@
-M caddy:2-builder AS builder
+FROM caddy:2-builder AS builder
 RUN xcaddy build \
     --with github.com/caddy-dns/njalla \
     --with github.com/mholt/caddy-ratelimit
