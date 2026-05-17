@@ -3,8 +3,17 @@ name: Build Caddy
 on:
   push:
     branches: [main]
+  workflow_dispatch:
   schedule:
-    - cron: '0 3 * * 1'  # weekly on Monday
+    - cron: '0 3 * * *'
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: build-caddy-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -26,5 +35,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          pull: true
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/caddy-njalla-ratelimit:latest
